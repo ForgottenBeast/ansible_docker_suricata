@@ -36,3 +36,8 @@
     image: suricata
     privileged: True
     network_mode: host
+
+- name: "start sending logs to SOC"
+  become: True
+  command: docker exec suricata bash -c "tail -f var/log/suricata.eve.json | nc -w 1 -u {{syslog_server}} 514"
+  when: syslog_server is defined
