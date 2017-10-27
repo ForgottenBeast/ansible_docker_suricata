@@ -1,0 +1,38 @@
+- name: "Push suricata repo"
+  synchronize:
+    src: dtag_suricata
+    dest: /tmp/
+
+- name: "Build image"
+  become: True
+  docker_image: 
+    name: suricata
+    force: True
+    path: /tmp/dtag_suricata
+
+- name: "run suricata"
+  become: True
+  docker_container:
+    state: started
+    name: suricata
+    image: suricata
+    volumes:
+      - /var/log/suricata
+    network_mode: host
+    privileged: True
+
+- name: "create eve.json"
+  become: True
+  command: docker exec suricata bash -c "touch /var/log/suricata/eve.json; chmod 666 /var/log/suricata/eve.json"
+
+- name: "restart suricata"
+  become: True
+  docker_container:
+    state: started
+    name: suricata
+    restart: True
+    volumes:
+      - /var/log/suricata
+    image: suricata
+    privileged: True
+    network_mode: host
