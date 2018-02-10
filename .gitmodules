@@ -1,3 +1,0 @@
-[submodule "files/dtag_suricata"]
-	path = files/dtag_suricata
-	url = https://github.com/dtag-dev-sec/suricata.git
