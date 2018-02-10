@@ -1,6 +1,6 @@
 - name: "Push suricata repo"
   synchronize:
-    src: dtag_suricata
+    src: tpotce/docker/suricata
     dest: /tmp/
 
 - name: "Build image"
